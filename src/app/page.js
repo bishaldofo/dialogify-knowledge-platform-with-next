@@ -1,9 +1,10 @@
-import Image from "next/image";
+import Content from "@/components/Content/Content";
+import HomeFeature from "@/components/HomeFeature/HomeFeature";
 
 export default function Home() {
   return (
     <div>
-      <h1>Next JS</h1>
+      <HomeFeature/>
     </div>
   );
 }
