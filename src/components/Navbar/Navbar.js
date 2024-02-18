@@ -1,13 +1,14 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
 import { FaHouseChimney } from "react-icons/fa6";
+import {signIn, signOut, useSession} from 'next-auth/react'
 
 const Navbar = () => {
-   const loggedIn = true;
+   const {data: session} = useSession()
 
    const navItem = <>
       <li><Link href="/"><FaHouseChimney className="text-xl" /></Link></li>
-      <li><Link href="/">Following</Link></li>
       <li><Link href="/about">About</Link></li>
       <li><Link href="/contact">Contact</Link></li>
    </>
@@ -34,14 +35,14 @@ const Navbar = () => {
                </div>
                <div className="navbar-end gap-5 flex-1">
                   <div className="form-control flex-1 hidden md:block">
-                     <input type="text" placeholder="Search" className="w-3/4 border px-4 py-1 rounded-3xl input-bordered" />
+                     <input type="text" name="search" placeholder="Search" className="w-3/4 border px-4 py-1 rounded-3xl input-bordered" />
                   </div>
                   {
-                     loggedIn
+                     session?.user
                         ? (
                            <div className="dropdown dropdown-end">
                               <div className="flex flex-row items-center gap-2">
-                                 <p className="pl-3 mb-2 font-bold text-base">John Doe</p>
+                                 <p className="pl-3 mb-2 font-bold text-base">{session?.user?.email}</p>
                                  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                     <div className="w-10 rounded-full">
                                        <Image width={100} height={100} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} alt="Tailwind CSS Navbar component" src="https://i.ibb.co/MNJLHMM/defalut-img.webp" />
@@ -51,18 +52,19 @@ const Navbar = () => {
 
                               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                  <li>
-                                    <Link href="/">Profile</Link>
+                                    <Link href="/dashboard">Dashboard</Link>
                                  </li>
                                  <li>
-                                    <button>Logout</button>
+                                    <button onClick={() => { signOut()}}>Logout</button>
                                  </li>
                               </ul>
                            </div>
                         )
                         :
                         (
-                           <button className="btn">
-                              <Link href="/login">Get Started</Link>
+                           <button onClick={() => {signIn()}} className="btn">
+                              Get Started
+                              {/* <Link href="/login">Get Started</Link> */}
                            </button>
                         )
                   }
