@@ -35,7 +35,7 @@ const CreatePost = () => {
 
       try {
          const imageUrl = await uploadImage()
-         const res = await fetch('/api/post', {
+         const res = await fetch(`http://localhost:3000/api/post`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

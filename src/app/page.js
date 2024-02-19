@@ -3,22 +3,26 @@ import Navbar from "@/components/Navbar/Navbar";
 import PostCard from "@/components/PostCard/PostCard";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
-const getPosts = async () => {
-  try {
-    const res = await fetch("http://localhost:3000/api/post", {
-      cache: "no-store",
-    });
+// export const getPosts = async () => {
+//   try {
+//     const res = await fetch("/api/post", {
+//       cache: "no-cache",
+//     });
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch posts");
-    }
+//     if (!res.ok) {
+//       throw new Error("Failed to fetch posts");
+//     }
 
-    return res.json();
-  } catch (error) {
-    console.log("Error loading posts: ", error);
-  }
-};
+//     return res.json();
+//   } catch (error) {
+//     console.log("Error loading posts: ", error);
+//   }
+// };
 
+export async function getPosts() {
+  const res = await fetch('http://localhost:3000/api/post')
+  return res.json();
+}
 
 export default async function Home() {
   const posts = await getPosts();

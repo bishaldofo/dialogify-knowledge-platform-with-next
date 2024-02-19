@@ -23,15 +23,13 @@ const PostCard = ({ post }) => {
   // console.log(comments)
   useEffect(() => {
     async function getAllComments() {
-      const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {
-        cache: "no-store"
-      })
+      const res = await fetch(`http://localhost:3000/api/comment/${_id}`)
       const allComments = await res.json()
 
       setComments(allComments)
     }
     getAllComments()
-  }, [])
+  }, [_id])
 
   useEffect(() => {
     session && likes && setIsLiked(likes.includes(session?.user?._id))
@@ -74,7 +72,7 @@ const PostCard = ({ post }) => {
         text: commentText
       }
 
-      const res = await fetch(`http://localhost:3000/api/comment/`, {
+      const res = await fetch('http://localhost:3000/api/comment/', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session?.user?.accessToken}`
@@ -164,12 +162,6 @@ const PostCard = ({ post }) => {
             <div className='m-5'>
               <hr className='mb-5'></hr>
               <div className='flex gap-4 items-center'>
-                {/* <Image src=""
-              width={30}
-              height={30}
-              alt='user-image'
-              className='rounded-full'
-            /> */}
                 <FaRegUser />
                 <input type='text' name="comment" value={commentText} onChange={(e) => setCommentText(e.target.value)}
                   placeholder='Write a comment'
