@@ -36,7 +36,7 @@ const PostForm = () => {
 
       try {
          const imageUrl = await uploadImage()
-         const res = await fetch('http://localhost:3000/api/post', {
+         const res = await fetch('/api/post', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${session?.user?.accessToken}`

@@ -23,10 +23,10 @@ const PostCard = ({ post }) => {
   // console.log(comments)
   useEffect(() => {
     async function getAllComments() {
-      const res = await fetch(`http://localhost:3000/api/comment/${_id}`)
-      const allComments = await res.json()
+      const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {cache:"no-cache"})
+      const comments = await res.json()
 
-      setComments(allComments)
+      setComments(comments)
     }
     getAllComments()
   }, [_id])
@@ -72,7 +72,7 @@ const PostCard = ({ post }) => {
         text: commentText
       }
 
-      const res = await fetch('http://localhost:3000/api/comment/', {
+      const res = await fetch(`http://localhost:3000/api/comment/`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session?.user?.accessToken}`
@@ -108,7 +108,7 @@ const PostCard = ({ post }) => {
               />
             </div>
             <div>
-              <p className="text-sm font-bold"><Link href="/">{authorId.username}</Link></p>
+              <p className="text-sm font-bold"><Link href="/dashboard/user">{authorId?.username}</Link></p>
             </div>
             <div>
               <small>
@@ -144,10 +144,16 @@ const PostCard = ({ post }) => {
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
             <div>
-              <h2 className="text-xl font-semibold">Comments</h2>
+              {
+                comments?.length > 0 ?
+                  <h2 className="text-xl font-semibold">Comments</h2>
+                  :
+                  <h2 className="text-xl font-semibold">No Comment yet!</h2>
+              }
+             
               <div>
                 {
-                  comments.map((comment) => (
+                  comments?.map((comment) => (
                     <Comment key={comment._id} comment={comment} setComments={setComments}></Comment>
                   ))
                 }
