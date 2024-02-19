@@ -2,6 +2,16 @@ import db from "@/lib/db";
 import bcrypt from 'bcrypt'
 import User from "@/models/User";
 
+export async function GET (req) {
+   try {
+     await db.connect();
+     const users = await User.find();
+     return new NextResponse(JSON.stringify(users), { status: 200 });
+   } catch (error) {
+     return new NextResponse("Error in fetching users" + error, { status: 500 });
+   }
+};
+
 export async function POST(req) {
    try {
       await db.connect()
