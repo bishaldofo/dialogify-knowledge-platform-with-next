@@ -4,7 +4,7 @@ import PostCard from "@/components/PostCard/PostCard";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
 export async function getPosts() {
-  const res = await fetch('http://localhost:3000/api/post', {cache:"no-cache"})
+  const res = await fetch('http://localhost:3000/api/post', {cache:"no-store"})
   return res.json();
 }
 

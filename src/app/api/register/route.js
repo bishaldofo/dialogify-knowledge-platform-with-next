@@ -1,10 +1,11 @@
 import db from "@/lib/db";
 import bcrypt from 'bcrypt'
 import User from "@/models/User";
+import { NextResponse } from "next/server";
 
-export async function GET (req) {
+export async function GET(req) {
+   await db.connect();
    try {
-     await db.connect();
      const users = await User.find();
      return new NextResponse(JSON.stringify(users), { status: 200 });
    } catch (error) {

@@ -23,7 +23,7 @@ const PostCard = ({ post }) => {
   // console.log(comments)
   useEffect(() => {
     async function getAllComments() {
-      const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {cache:"no-cache"})
+      const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {cache:"no-store"})
       const comments = await res.json()
 
       setComments(comments)
@@ -108,12 +108,12 @@ const PostCard = ({ post }) => {
               />
             </div>
             <div>
-              <p className="text-sm font-bold"><Link href="/dashboard/user">{authorId?.username}</Link></p>
+              <p className="text-sm font-bold"><Link href={`/dashboard/user/${_id}`}>{authorId?.username}</Link></p>
             </div>
             <div>
-              <small>
-                {format(createdAt)}
-              </small>
+              <span>
+                {format(post?.createdAt)}
+              </span>
             </div>
           </div>
           <h2 className="card-title">{title}</h2>
