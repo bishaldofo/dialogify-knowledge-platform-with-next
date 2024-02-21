@@ -25,7 +25,6 @@ const PostCard = ({ post }) => {
     async function getAllComments() {
       const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {cache:"no-store"})
       const comments = await res.json()
-
       setComments(comments)
     }
     getAllComments()
