@@ -11,6 +11,8 @@ export async function getPosts() {
 export default async function Home() {
   const posts = await getPosts();
 
+  const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   return (
     <>
       <div>
@@ -24,9 +26,9 @@ export default async function Home() {
             </div>
             <div className="max-w-6xl mx-auto flex-1 space-y-5">
               {
-                posts?.length > 0
+                sortedPosts?.length > 0
                   ?
-                  posts?.map(post =>
+                  sortedPosts?.map(post =>
                     <PostCard key={post._id} post={post}></PostCard>
                   )
                   :
