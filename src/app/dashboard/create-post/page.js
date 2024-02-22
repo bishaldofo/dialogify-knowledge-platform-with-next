@@ -10,7 +10,6 @@ const CreatePost = () => {
 
    const [title, setTitle] = useState('')
    const [desc, setDesc] = useState('')
-   const [category, setCategory] = useState("HTML")
    const [photo, setPhoto] = useState('')
 
    const { data: session, status } = useSession()
@@ -28,7 +27,7 @@ const CreatePost = () => {
    const handleSubmit = async (e) => {
       e.preventDefault()
 
-      if (!photo || !title || !desc || !category) {
+      if (!photo || !title || !desc) {
          toast.error("Please Fill all the Fields!")
          return 
       }
@@ -41,7 +40,7 @@ const CreatePost = () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${session?.user?.accessToken}`
             },
-            body: JSON.stringify({ title, desc, category, imageUrl, authorId: session?.user?._id })
+            body: JSON.stringify({ title, desc, imageUrl, authorId: session?.user?._id })
          })
          
          if (!res.ok) {
@@ -85,11 +84,6 @@ const CreatePost = () => {
          <form onSubmit={handleSubmit}>
             <input type="text" name="title" placeholder='Title...' onChange={(e) => setTitle(e.target.value)} />
             <textarea name="desc" placeholder='Description...' onChange={(e) => setDesc(e.target.value)} />
-            <select name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-               <option value="HTML">HTML</option>
-               <option value="CSS">CSS</option>
-               <option value="Jquery">Jquery</option>
-            </select>
             <input id='image' type="file" onChange={(e) => setPhoto(e.target.files[0])} />
             <button>Create</button>
          </form>
