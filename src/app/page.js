@@ -1,6 +1,7 @@
 import Advertise from "@/components/Advertise/Advertise";
 import Navbar from "@/components/Navbar/Navbar";
 import PostCard from "@/components/PostCard/PostCard";
+import PostCreate from "@/components/PostCreate/PostCreate";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
 export async function getPosts() {
@@ -24,6 +25,7 @@ export default async function Home() {
               <Sidebar />
             </div>
             <div className="max-w-6xl mx-auto flex-1 space-y-5">
+              <PostCreate/>
               {
                 sortedPosts?.length > 0
                   ?
