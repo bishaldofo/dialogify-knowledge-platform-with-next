@@ -10,6 +10,7 @@ import { BsFillSendFill } from 'react-icons/bs';
 import { FaRegCommentDots, FaRegUser } from 'react-icons/fa6';
 import Answerss from '../Comment/Answerss';
 import { format } from 'timeago.js';
+import toast from 'react-hot-toast';
 
 const QuestionCard = ({ques}) => {
     
@@ -19,8 +20,9 @@ const QuestionCard = ({ques}) => {
     const [questLikes, setQuestLikes] = useState(0);
     const { quest, _id, likes, authorId } = ques;
   
-    const [answerText, setAnswerText] = useState("")
-    const [answers, setAnswers] = useState([])
+    const [answerText, setAnswerText] = useState("");
+    const [answers, setAnswers] = useState([]);
+    console.log(answers);
     // console.log(session?.user)
     // console.log(comments)
     useEffect(() => {
@@ -136,6 +138,7 @@ const QuestionCard = ({ques}) => {
               <FaRegCommentDots size={20} />
               <h2>{answers?.length} Comments</h2>
             </div>
+          
           </div>
         </div>
 
@@ -147,15 +150,15 @@ const QuestionCard = ({ques}) => {
             <div>
               {
                 answers?.length > 0 ?
-                  <h2 className="text-xl font-semibold">Comments</h2>
+                  <h2 className="text-xl font-semibold">Answers</h2>
                   :
-                  <h2 className="text-xl font-semibold">No Comment yet!</h2>
+                  <h2 className="text-xl font-semibold">No Answer yet!</h2>
               }
              
               <div>
                 {
                   answers?.map((answer) => (
-                    <Answerss key={answer._id} answer={answer} setAnswers={setAnswers}></Answerss>
+                    <Answerss key={answer?._id} answer={answer} setAnswers={setAnswers}></Answerss>
                   ))
                 }
               </div>

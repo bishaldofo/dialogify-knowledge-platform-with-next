@@ -18,7 +18,7 @@ export async function POST(req){
       const body = await req.json()
       
       let newAnswer = await AnswerModal.create(body)
-      newAnswer = await newComment.populate('authorId')
+      newAnswer = await newAnswer.populate('authorId')
 
       return new Response(JSON.stringify(newAnswer), {status: 201})
    } catch (error) {

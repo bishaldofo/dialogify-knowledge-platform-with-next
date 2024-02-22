@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const ANswerSchema = new mongoose.Schema({
-   answerId: {
+    answerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Quest",
       required: true,
