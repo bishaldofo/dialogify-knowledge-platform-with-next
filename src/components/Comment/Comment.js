@@ -19,7 +19,7 @@ const Comment = ({ comment }) => {
          <div className='flex items-start w-full gap-2'>
             <p className='pt-2'><FaUser size={20} /></p>
             <div className='bg-[#F0F2F5] p-2 max-w-[75%] rounded-3xl'>
-               <p>{comment?.authorId?.email}</p>
+               <p>{comment?.authorId?.username}</p>
                <p>{comment?.text}</p>
             </div>
          </div>

@@ -80,7 +80,7 @@ const PostCreate = () => {
                            {/* Put this part before </body> tag */}
                            <input type="checkbox" id="my_modal_7" checked={showModal} onChange={() => { }} className="modal-toggle" />
                            <div className={`modal ${showModal ? 'open' : ''}`} role="dialog">
-                              <div className="modal-box w-[1000px] h-[400px] ">
+                              <div className="modal-box ">
                                  <PostForm closeModal={closeModal} />
                               </div>
                               
