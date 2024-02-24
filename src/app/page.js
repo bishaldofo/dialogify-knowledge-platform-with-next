@@ -12,7 +12,7 @@ export async function getPosts() {
 export default async function Home() {
   const posts = await getPosts();
 
-  const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const sortedPosts = posts?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <>
