@@ -21,6 +21,7 @@ const PostCard = ({ post }) => {
   const [comments, setComments] = useState([])
   // console.log(session?.user)
   // console.log(comments)
+  
   useEffect(() => {
     async function getAllComments() {
       const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {cache:"no-store"})
@@ -111,7 +112,7 @@ const PostCard = ({ post }) => {
             </div>
             <div>
               <span>
-                {format(post?.createdAt)}
+                {format(createdAt)}
               </span>
             </div>
           </div>

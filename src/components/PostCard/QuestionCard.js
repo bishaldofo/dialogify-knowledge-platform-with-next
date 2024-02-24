@@ -13,8 +13,6 @@ import { format } from 'timeago.js';
 import toast from 'react-hot-toast';
 
 const QuestionCard = ({ques}) => {
-    
-
     const { data: session } = useSession()
     const [isLiked, setIsLiked] = useState(false);
     const [questLikes, setQuestLikes] = useState(0);
@@ -90,7 +88,7 @@ const QuestionCard = ({ques}) => {
         setAnswers((prev) => {
           return [newAnswer, ...prev]
         })
-        toast.success("Your comment successfully added!")
+        toast.success("Your Answer successfully added!")
         setAnswerText("")
       } catch (error) {
         console.log(error)

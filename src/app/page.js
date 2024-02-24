@@ -26,16 +26,20 @@ export default async function Home() {
               <Sidebar />
             </div>
             <div className="max-w-6xl mx-auto flex-1 space-y-5">
-              <PostCreate/>
-              {
-                sortedPosts?.length > 0
-                  ?
-                  sortedPosts?.map(post =>
-                    <PostCard key={post._id} post={post}></PostCard>
-                  )
-                  :
-                  <p className="text">No Post available!</p>
-              }
+              <div>
+                <PostCreate/>
+              </div>
+              <div>
+                {
+                  sortedPosts?.length > 0
+                    ?
+                    sortedPosts?.map(post =>
+                      <PostCard key={post._id} post={post}></PostCard>
+                    )
+                    :
+                    <p className="text">No Post available!</p>
+                }
+              </div>
             </div>
             <div className="w-full md:w-[250px]">
               <Advertise />
