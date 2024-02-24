@@ -6,13 +6,12 @@ const DashboardLayout = ({ children }) => {
    return (
       <div className='flex h-screen max-w-6xl m-auto'>
          <Provider>
-            <div className='w-96 bg-orange-700 text-white'>
-               <li><Link href="/">Home</Link></li>
-               <li><Link href="/dashboard">Dashboard</Link></li>
-               <li><Link href="/dashboard/user">Profile</Link></li>
-               <li><Link href="/dashboard/create-post">Create Post</Link></li>
+            <div className='w-60 bg-orange-700 text-white pt-4 pl-5'>
+               <li className='list-none'><Link href="/">Home</Link></li>
+               <li className='list-none'><Link href="/dashboard">Dashboard</Link></li>
+               <li className='list-none'><Link href="/dashboard/user">Profile</Link></li>
             </div>
-            <div className='w-full'>{children}</div>
+            <div className='w-full p-5'>{children}</div>
          </Provider>
       </div>
    );

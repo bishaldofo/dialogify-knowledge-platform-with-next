@@ -5,13 +5,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 const QuestionForm = () => {
-   const CLOUD_NAME = 'dn9674mde'
-   const UPLOAD_PRESET = 'dialogify-project'
-
-   
    const [quest, setQuest] = useState('')
-   
-
    const { data: session, status } = useSession()
    const router = useRouter()
 
@@ -26,41 +20,34 @@ const QuestionForm = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault()
-
-     
-
       try {
-        
          const res = await fetch(`http://localhost:3000/api/question`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session?.user?.accessToken}`
+               'Content-Type': 'application/json',
+               'Authorization': `Bearer ${session?.user?.accessToken}`
             },
-            body: JSON.stringify({ quest,  authorId: session?.user?._id })
+            body: JSON.stringify({ quest, authorId: session?.user?._id })
          })
-         
+
          if (!res.ok) {
             throw new Error("Error Occured")
          }
-        
+         toast.success("Your Question successfully added!")
+         router.push("/answer")
       } catch (error) {
          console.log(error)
       }
    }
-
-
+   
    return (
-      <div className="max-w-6xl m-auto  ">
-         <div className=" flex justify-center " >
-         <h1 className=" text-xl font-semibold " >Create Post</h1>
+      <div className="max-w-6xl m-auto">
+         <div className=" flex justify-center mb-2" >
+            <h1 className=" text-xl font-semibold">Write your Question here..</h1>
          </div>
          <form className=" flex flex-col " onSubmit={handleSubmit}>
-            
             <textarea name="desc" placeholder='Add a Question...' className="textarea textarea-bordered textarea-lg w-full " onChange={(e) => setQuest(e.target.value)} />
-            
-           
-            <button className=" mt-5 btn bg-blue-700 text-white hover:bg-blue-950 " >Add</button>
+            <button className=" mt-5 btn bg-blue-700 text-white hover:bg-blue-950 " >Add Question</button>
          </form>
       </div>
    );
