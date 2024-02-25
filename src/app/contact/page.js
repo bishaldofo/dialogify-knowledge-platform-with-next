@@ -1,12 +1,23 @@
 import Navbar from '@/components/Navbar/Navbar';
 
-const ContactPage = () => {
-   return (
-      <div>
-         <Navbar/>
-         <h1>Contact Page</h1>
-      </div>
-   );
+import Image from "next/image";
+import Contact from '@/components/Contacts/Contact';
+
+
+const contactpage = () => {
+    return (
+        <div>
+            <div className='shadow-md bg-white sticky top-0 z-50'>
+                <Navbar/>
+            </div>
+            
+            <div className='  ' >
+                <div>
+                    <Contact></Contact>
+                </div>
+            </div>
+        </div>
+    );
 };
 
-export default ContactPage;
+export default contactpage;
