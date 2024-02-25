@@ -2,13 +2,33 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaHouseChimney } from "react-icons/fa6";
-import {signIn, signOut, useSession} from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
-   const {data: session} = useSession()
+   const { data: session } = useSession()
+   const [userData, setUserData] = useState(null);
+
+   useEffect(() => {
+      const fetchUserData = async () => {
+         try {
+            // Fetch user data based on _id
+            const response = await fetch(`/api/user/${session?.user?._id}`);
+            const userData = await response.json();
+            setUserData(userData);
+         } catch (error) {
+            console.error('Error fetching user data:', error);
+         }
+      };
+
+      if (session?.user?._id) {
+         fetchUserData();
+      }
+   }, [session]);
 
    const navItem = <>
       <li><Link href="/"><FaHouseChimney className="text-xl" /></Link></li>
+      <li><Link href="/dashboard">Dashboard</Link></li>
       <li><Link href="/about">About</Link></li>
       <li><Link href="/contact">Contact</Link></li>
    </>
@@ -42,7 +62,7 @@ const Navbar = () => {
                         ? (
                            <div className="dropdown dropdown-end">
                               <div className="flex flex-row items-center gap-2">
-                                 <p className="pl-3 mb-2 font-bold text-base">{session?.user?.email}</p>
+                                 <p className="pl-3 mb-2 font-bold text-base">{userData?.username}</p>
                                  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                     <div className="w-10 rounded-full">
                                        <Image width={100} height={100} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} alt="Tailwind CSS Navbar component" src="https://i.ibb.co/MNJLHMM/defalut-img.webp" />
@@ -52,17 +72,17 @@ const Navbar = () => {
 
                               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                  <li>
-                                    <Link href="/dashboard">Dashboard</Link>
+                                    <Link href="/profile">Profile</Link>
                                  </li>
                                  <li>
-                                    <button onClick={() => { signOut()}}>Logout</button>
+                                    <button onClick={() => { signOut() }}>Logout</button>
                                  </li>
                               </ul>
                            </div>
                         )
                         :
                         (
-                           <button onClick={() => {signIn()}} className="btn">
+                           <button onClick={() => { signIn() }} className="btn">
                               Get Started
                               {/* <Link href="/login">Get Started</Link> */}
                            </button>
