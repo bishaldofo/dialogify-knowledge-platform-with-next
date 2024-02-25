@@ -9,6 +9,7 @@ import { FaQuestionCircle } from "react-icons/fa";
 const DashboardLayout = ({ children }) => {
    return (
       <div className='flex h-screen m-auto bg-[#11111D] text-white'>
+         
          <Provider>
             <div className='w-60 bg-[#1C1C27] text-white'>
                <button className="btn btn-ghost text-2xl text-[#0079D3] mt-2"><Link href="/">Dialogify</Link></button>
