@@ -21,11 +21,11 @@ const PostCard = ({ post }) => {
   const [comments, setComments] = useState([])
   // console.log(session?.user)
   // console.log(comments)
+  
   useEffect(() => {
     async function getAllComments() {
       const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {cache:"no-store"})
       const comments = await res.json()
-
       setComments(comments)
     }
     getAllComments()
@@ -112,7 +112,7 @@ const PostCard = ({ post }) => {
             </div>
             <div>
               <span>
-                {format(post?.createdAt)}
+                {format(createdAt)}
               </span>
             </div>
           </div>
@@ -137,8 +137,7 @@ const PostCard = ({ post }) => {
             </div>
           </div>
         </div>
-
-        <dialog id={`my_modal_${_id}`} className="modal">
+        <dialog id={`my_modal_${_id}`} className="modal modal-bottom sm:modal-middle">
           <div className="modal-box">
             <form method="dialog">
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>

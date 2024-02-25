@@ -7,16 +7,18 @@ const Comment = ({ comment }) => {
    const { data: session } = useSession()
    const token = session?.user?.accessToken
 
+   console.log(comment)
+
    return (
-      <div className='my-5 bg-gray-300 p-3 rounded-md'>
+      <div className='my-5 p-3 border mb-2 rounded-md'>
          <div className='text-right'>
             <small>
                {format(comment?.createdAt)}
             </small>
          </div>
-         <div className='flex items-center w-full gap-2'>
-            <p><FaUser size={50} /></p>
-            <div>
+         <div className='flex items-start w-full gap-2'>
+            <p className='pt-2'><FaUser size={20} /></p>
+            <div className='bg-[#F0F2F5] p-2 max-w-[75%] rounded-3xl'>
                <p>{comment?.authorId?.username}</p>
                <p>{comment?.text}</p>
             </div>

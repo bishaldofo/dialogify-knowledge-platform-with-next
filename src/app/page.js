@@ -1,6 +1,7 @@
 import Advertise from "@/components/Advertise/Advertise";
 import Navbar from "@/components/Navbar/Navbar";
 import PostCard from "@/components/PostCard/PostCard";
+import PostCreate from "@/components/PostCreate/PostCreate";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
 export async function getPosts() {
@@ -10,6 +11,8 @@ export async function getPosts() {
 
 export default async function Home() {
   const posts = await getPosts();
+
+  const sortedPosts = posts?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <>
@@ -23,15 +26,20 @@ export default async function Home() {
               <Sidebar />
             </div>
             <div className="max-w-6xl mx-auto flex-1 space-y-5">
-              {
-                posts?.length > 0
-                  ?
-                  posts?.map(post =>
-                    <PostCard key={post._id} post={post}></PostCard>
-                  )
-                  :
-                  <p className="text">No Post available!</p>
-              }
+              <div>
+                <PostCreate/>
+              </div>
+              <div>
+                {
+                  sortedPosts?.length > 0
+                    ?
+                    sortedPosts?.map(post =>
+                      <PostCard key={post._id} post={post}></PostCard>
+                    )
+                    :
+                    <p className="text">No Post available!</p>
+                }
+              </div>
             </div>
             <div className="w-full md:w-[250px]">
               <Advertise />
