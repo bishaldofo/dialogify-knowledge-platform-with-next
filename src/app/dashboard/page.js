@@ -49,7 +49,7 @@ const DashboardPage = async () => {
                            <td>
                               {user.email}
                            </td>
-                           <td>{user.createdAt}</td>
+                           <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                            <th>
                               <div>
                                  <button className="btn btn-success btn-xs text-white">Make Admin</button>

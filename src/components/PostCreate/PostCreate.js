@@ -6,10 +6,34 @@ import Image from "next/image";
 import { RiQuestionnaireLine } from "react-icons/ri";
 import { TfiPencilAlt } from "react-icons/tfi";
 import PostForm from "./PostForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuPencil } from "react-icons/lu";
+import { useSession } from "next-auth/react";
 
 const PostCreate = () => {
+   const { data: session, status } = useSession();
+   const [userData, setUserData] = useState(null);
+   const [loading, setLoading] = useState(false);
+
+   useEffect(() => {
+      const fetchUserData = async () => {
+         try {
+            setLoading(true);
+            // Fetch user data based on _id
+            const response = await fetch(`/api/user/${session?.user?._id}`);
+            const userData = await response.json();
+            setUserData(userData);
+            setLoading(false);
+         } catch (error) {
+            setLoading(false);
+            console.error('Error fetching user data:', error);
+         }
+      };
+
+      if (session?.user?._id) {
+         fetchUserData();
+      }
+   }, [session]);
    const [showModal, setShowModal] = useState(false);
 
    const openModal = () => {
@@ -31,7 +55,12 @@ const PostCreate = () => {
                         <div className="flex flex-row items-center gap-2">
                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                               <div className="w-10 rounded-full">
-                                 <Image width={100} height={100} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} alt="Tailwind CSS Navbar component" src="https://i.ibb.co/MNJLHMM/defalut-img.webp" />
+                                 {
+                                    userData?.profileImage ?
+                                       <Image width={100} height={100} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} alt="Tailwind CSS Navbar component" src={userData?.profileImage} />
+                                       :
+                                       <Image width={100} height={100} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} alt="Tailwind CSS Navbar component" src="https://i.ibb.co/MNJLHMM/defalut-img.webp" />
+                                 }
                               </div>
                            </div>
                         </div>

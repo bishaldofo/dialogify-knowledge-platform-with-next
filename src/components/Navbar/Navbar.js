@@ -2,12 +2,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaHouseChimney } from "react-icons/fa6";
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
-   const { data: session } = useSession()
+   const { data: session, status } = useSession();
    const [userData, setUserData] = useState(null);
+   const [loading, setLoading] = useState(true);
 
    useEffect(() => {
       const fetchUserData = async () => {
@@ -16,7 +17,9 @@ const Navbar = () => {
             const response = await fetch(`/api/user/${session?.user?._id}`);
             const userData = await response.json();
             setUserData(userData);
+            setLoading(false);
          } catch (error) {
+            setLoading(false);
             console.error('Error fetching user data:', error);
          }
       };
@@ -26,14 +29,22 @@ const Navbar = () => {
       }
    }, [session]);
 
-   const navItem = <>
-      <li><Link href="/"><FaHouseChimney className="text-xl" /></Link></li>
-      <li><Link href="/dashboard">Dashboard</Link></li>
-      <li><Link href="/about">About</Link></li>
-      <li><Link href="/contact">Contact</Link></li>
-   </>
+   const navItem = (
+      <>
+         <li><Link href="/"><FaHouseChimney className="text-xl" /></Link></li>
+         {userData?.role === "admin" && <li><Link href="/dashboard">Dashboard</Link></li>}
+         <li><Link href="/about">About</Link></li>
+         <li><Link href="/contact">Contact</Link></li>
+      </>
+   );
 
-   return (
+   return loading ? (<>
+      <div className="h-screen flex items-center justify-center">
+         <p className="text-lg">
+            loading...
+         </p>
+      </div>
+   </>) : (
       <div>
          <div className="max-w-6xl m-auto">
             <div className="navbar bg-base-100 gap-4 px-0">
@@ -57,38 +68,38 @@ const Navbar = () => {
                   <div className="form-control flex-1 hidden md:block">
                      <input type="text" name="search" placeholder="Search" className="w-3/4 border px-4 py-1 rounded-3xl input-bordered" />
                   </div>
-                  {
-                     session?.user
-                        ? (
-                           <div className="dropdown dropdown-end">
-                              <div className="flex flex-row items-center gap-2">
-                                 <p className="pl-3 mb-2 font-bold text-base">{userData?.username}</p>
-                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                    <div className="w-10 rounded-full">
-                                       <Image width={100} height={100} style={{ objectFit: 'contain', width: 'auto', height: 'auto' }} alt="Tailwind CSS Navbar component" src="https://i.ibb.co/MNJLHMM/defalut-img.webp" />
-                                    </div>
-                                 </div>
+                  {status === "loading" ? (
+                     <p className="skeleton w-10 h-10"></p>
+                  ) : session?.user ? (
+                     <div className="dropdown dropdown-end">
+                        <div className="flex flex-row items-center gap-2">
+                           <p className="pl-3 mb-2 font-bold text-base">{userData?.name}</p>
+                           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                 <div className="w-10 rounded-full">
+                                    {
+                                       userData?.profileImage ?
+                                          <Image width={100} height={100} className="rounded-full" alt="Avatar" src={userData?.profileImage} />
+                                          :
+                                          <Image width={100} height={100} className="rounded-full" alt="Avatar" src="https://i.ibb.co/MNJLHMM/defalut-img.webp" />
+                                 }
+                                 
                               </div>
-
-                              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                                 <li>
-                                    <Link href="/profile">Profile</Link>
-                                 </li>
-                                 <li>
-                                    <button onClick={() => { signOut() }}>Logout</button>
-                                 </li>
-                              </ul>
                            </div>
-                        )
-                        :
-                        (
-                           <button onClick={() => { signIn() }} className="btn">
-                              Get Started
-                              {/* <Link href="/login">Get Started</Link> */}
-                           </button>
-                        )
-                  }
-
+                        </div>
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                           <li>
+                              <Link href="/profile">Profile</Link>
+                           </li>
+                           <li>
+                              <button onClick={() => signOut()}>Logout</button>
+                           </li>
+                        </ul>
+                     </div>
+                  ) : (
+                     <button onClick={() => signIn()} className="btn">
+                        Get Started
+                     </button>
+                  )}
                </div>
             </div>
          </div>

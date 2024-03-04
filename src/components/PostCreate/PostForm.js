@@ -3,9 +3,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { BsFillSendFill } from "react-icons/bs";
-import { IoCloseCircleOutline } from "react-icons/io5";
-import { RiQuestionnaireLine } from "react-icons/ri";
 
 const PostForm = ({ closeModal }) => {
    const CLOUD_NAME = 'dn9674mde'

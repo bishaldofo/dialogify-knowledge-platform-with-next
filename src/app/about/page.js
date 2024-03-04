@@ -1,7 +1,6 @@
 
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from "@/components/Footer/Footer";
-import Navbar from "@/components/Navbar/Navbar";
 import Image from "next/image";
 
 // export const metadata = {
