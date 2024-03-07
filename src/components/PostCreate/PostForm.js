@@ -1,4 +1,5 @@
 "use client"
+import Loading from "@/app/loading";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,9 +17,9 @@ const PostForm = ({ closeModal }) => {
    const router = useRouter()
 
    console.log(session)
-   if (status === 'loading') {
-      return <p>Loading....</p>
-   }
+   // if (status === 'loading') {
+   //    return <Loading/>
+   // }
 
    if (status === "unauthenticated") {
       return <p>Access Denied</p>
@@ -96,8 +97,7 @@ const PostForm = ({ closeModal }) => {
             <div className="form-control">
                <input id='image' type="file" onChange={(e) => setPhoto(e.target.files[0])} />
             </div>
-
-
+            
             <button className="btn btn-primary bg-orange-700 text-white border-0 hover:bg-orange-800">Create Post</button>
          </form>
          <button onClick={closeModal} className="btn bg-transparent border-0 absolute right-2 top-2">✕</button>

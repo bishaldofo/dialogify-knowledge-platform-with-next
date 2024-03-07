@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import React from 'react';
 import { FaUser } from 'react-icons/fa6';
 import { format } from 'timeago.js';
@@ -17,9 +18,17 @@ const Comment = ({ comment }) => {
             </small>
          </div>
          <div className='flex items-start w-full gap-2'>
-            <p className='pt-2'><FaUser size={20} /></p>
+            <div className="w-10 rounded-full">
+               <Image
+                  width={100}
+                  height={100}
+                  className="rounded-full"
+                  alt="Tailwind CSS Navbar component"
+                  src={comment?.authorId?.profileImage}
+               />
+            </div>
             <div className='bg-[#F0F2F5] p-2 max-w-[75%] rounded-3xl'>
-               <p>{comment?.authorId?.username}</p>
+               <p>{comment?.authorId?.name}</p>
                <p>{comment?.text}</p>
             </div>
          </div>

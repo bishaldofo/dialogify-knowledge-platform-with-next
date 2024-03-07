@@ -19,12 +19,35 @@ const PostCard = ({ post }) => {
 
   const [commentText, setCommentText] = useState("")
   const [comments, setComments] = useState([])
+  const [userData, setUserData] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+  // const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // setLoading(true);
+        // Fetch user data based on _id
+        const response = await fetch(`/api/user/${session?.user?._id}`);
+        const userData = await response.json();
+        setUserData(userData);
+        // setLoading(false);
+      } catch (error) {
+        // setLoading(false);
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    if (session?.user?._id) {
+      fetchUserData();
+    }
+  }, [session]);
   // console.log(session?.user)
-  // console.log(comments)
-  
+  console.log(session)
+
   useEffect(() => {
     async function getAllComments() {
-      const res = await fetch(`http://localhost:3000/api/comment/${_id}`, {cache:"no-store"})
+      const res = await fetch(`http://localhost:3000/api/comment/${_id}`, { cache: "no-store" })
       const comments = await res.json()
       setComments(comments)
     }
@@ -93,9 +116,13 @@ const PostCard = ({ post }) => {
     }
   }
 
+  const handleToggleExpansion = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <div className="space-y-5">
-      <div className="card w-full bg-base-100 rounded-sm shadow-xl">
+      <div className="card w-full bg-base-100 rounded-md mb-10 shadow-md">
         <div className="card-body p-3">
           <div className="flex items-center gap-2">
             <div className="w-10 rounded-full">
@@ -104,11 +131,11 @@ const PostCard = ({ post }) => {
                 height={100}
                 className="rounded-full"
                 alt="Tailwind CSS Navbar component"
-                src="https://i.ibb.co/MNJLHMM/defalut-img.webp"
+                src={authorId?.profileImage}
               />
             </div>
             <div>
-              <p className="text-sm font-bold"><Link href={`/dashboard/user/${_id}`}>{authorId?.username}</Link></p>
+              <p className="text-sm font-bold"><Link href={`/dashboard/user/${_id}`}>{authorId?.name}</Link></p>
             </div>
             <div>
               <span>
@@ -117,12 +144,17 @@ const PostCard = ({ post }) => {
             </div>
           </div>
           <h2 className="card-title">{title}</h2>
-          <p className="text-sm">{desc}</p>
+          <p className="text-sm">{desc.length > 150 && !expanded ? desc.slice(0, 150) + "..." : desc}{desc.length > 150 && (
+            <button onClick={handleToggleExpansion} className="text-blue-500 hover:underline">
+              {expanded ? <span className="text-sm">Read less</span> : <span className="text-sm">Read more</span>}
+            </button>
+          )}</p>
+          
         </div>
         <figure>
           <Image width={600} className="w-full" height={600} src={imageUrl} alt="News" />
         </figure>
-        <div className="flex items-center gap-4 my-2">
+        <div className="flex items-center gap-4 pt-2">
           <div className="flex items-center p-1 m-2 shadow-sm border-gray-100 bg-gray-100 rounded gap-2 cursor-pointer">
             {postLikes} {" "} {isLiked
               ?
@@ -149,7 +181,7 @@ const PostCard = ({ post }) => {
                   :
                   <h2 className="text-xl font-semibold">No Comment yet!</h2>
               }
-             
+
               <div>
                 {
                   comments?.map((comment) => (
@@ -167,7 +199,15 @@ const PostCard = ({ post }) => {
             <div className='m-5'>
               <hr className='mb-5'></hr>
               <div className='flex gap-4 items-center'>
-                <FaRegUser />
+                <div className="w-10 rounded-full">
+                  <Image
+                    width={100}
+                    height={100}
+                    className="rounded-full"
+                    alt="Tailwind CSS Navbar component"
+                    src={userData?.profileImage}
+                  />
+                </div>
                 <input type='text' name="comment" value={commentText} onChange={(e) => setCommentText(e.target.value)}
                   placeholder='Write a comment'
                   className='w-full bg-slate-100 p-2 rounded-full 

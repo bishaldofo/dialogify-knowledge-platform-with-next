@@ -18,11 +18,8 @@ export default async function HomePage() {
     <>
       <div>
         <div>
-          <div className='shadow-md bg-white sticky top-0 z-50'>
-            <Navbar />
-          </div>
           <div className="flex flex-col md:flex-row mt-5 gap-5 max-w-6xl m-auto">
-            <div className="w-full md:w-[250px]">
+            <div className="w-full md:w-[200px]">
               <Sidebar />
             </div>
             <div className="max-w-6xl mx-auto flex-1 space-y-5">

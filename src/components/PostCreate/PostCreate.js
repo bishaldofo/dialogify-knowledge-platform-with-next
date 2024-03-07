@@ -13,19 +13,19 @@ import { useSession } from "next-auth/react";
 const PostCreate = () => {
    const { data: session, status } = useSession();
    const [userData, setUserData] = useState(null);
-   const [loading, setLoading] = useState(false);
+   // const [loading, setLoading] = useState(false);
 
    useEffect(() => {
       const fetchUserData = async () => {
          try {
-            setLoading(true);
+            // setLoading(true);
             // Fetch user data based on _id
             const response = await fetch(`/api/user/${session?.user?._id}`);
             const userData = await response.json();
             setUserData(userData);
-            setLoading(false);
+            // setLoading(false);
          } catch (error) {
-            setLoading(false);
+            // setLoading(false);
             console.error('Error fetching user data:', error);
          }
       };
@@ -47,8 +47,8 @@ const PostCreate = () => {
 
    return (
       <div>
-         <div className=" sticky top-14  z-10">
-            <div className="w-full p-5 bg-white">
+         <div className="sticky top-14 z-10">
+            <div className="w-full p-5 rounded-md shadow-md bg-white">
                <div className="flex flex-col lg:flex-row w-full gap-6  items-start">
                   <div className="w-[50px] rounded-full">
                      <div className="dropdown dropdown-end">

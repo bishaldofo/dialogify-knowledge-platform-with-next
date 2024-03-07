@@ -1,6 +1,4 @@
-
 "use client";
-
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { BsFillSendFill } from 'react-icons/bs';
 import { FaRegCommentDots, FaRegUser } from 'react-icons/fa6';
-import Answerss from '../Comment/Answerss';
+import Answers from '../Comment/Answerss';
 import { format } from 'timeago.js';
 import toast from 'react-hot-toast';
 
@@ -22,7 +20,28 @@ const QuestionCard = ({ ques }) => {
   const [answers, setAnswers] = useState([]);
   console.log(answers);
   // console.log(session?.user)
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   // console.log(comments)
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Fetch user data based on _id
+        const response = await fetch(`/api/user/${session?.user?._id}`);
+        const userData = await response.json();
+        setUserData(userData);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    if (session?.user?._id) {
+      fetchUserData();
+    }
+  }, [session]);
+
   useEffect(() => {
     async function getAllAnswers() {
       const res = await fetch(`http://localhost:3000/api/answers/${_id}`, { cache: "no-store" })
@@ -108,7 +127,7 @@ const QuestionCard = ({ ques }) => {
                   height={100}
                   className="rounded-full"
                   alt="Tailwind CSS Navbar component"
-                  src="https://i.ibb.co/MNJLHMM/defalut-img.webp"
+                  src={authorId?.profileImage}
                 />
               </div>
               <div>
@@ -157,7 +176,7 @@ const QuestionCard = ({ ques }) => {
               <div>
                 {
                   answers?.map((answer) => (
-                    <Answerss key={answer?._id} answer={answer} setAnswers={setAnswers}></Answerss>
+                    <Answers key={answer?._id} answer={answer} setAnswers={setAnswers}></Answers>
                   ))
                 }
               </div>
@@ -171,7 +190,15 @@ const QuestionCard = ({ ques }) => {
             <div className='m-5'>
               <hr className='mb-5'></hr>
               <div className='flex gap-4 items-center'>
-                <FaRegUser />
+                <div className="w-10 rounded-full">
+                  <Image
+                    width={100}
+                    height={100}
+                    className="rounded-full"
+                    alt="Tailwind CSS Navbar component"
+                    src={userData?.profileImage}
+                  />
+                </div>
                 <input type='text' name="answer" value={answerText} onChange={(e) => setAnswerText(e.target.value)}
                   placeholder='Write a answer'
                   className='w-full bg-slate-100 p-2 rounded-full 

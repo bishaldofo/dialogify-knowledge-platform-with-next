@@ -28,12 +28,12 @@ const Sidebar = () => {
 
   return (
     <div className="sticky top-20">
-      <div className="w-full md:w-[250px] bg-white rounded-sm">
+      <div className="w-full md:w-[250px] rounded-sm">
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu p-4 min-h-full text-base-content">
+        <ul className="menu min-h-full text-base-content">
           {/* Sidebar content here */}
           {data.map((category) => (
-            <li key={category._id} className="my-1">
+            <li key={category._id} className="">
               <Link href="/">
                 <div className="flex items-center gap-2">
                   <Image src={category.icon || category.image} alt="Icon" width={25} height={25}></Image>

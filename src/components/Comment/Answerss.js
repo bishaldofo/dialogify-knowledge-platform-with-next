@@ -1,9 +1,10 @@
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import React from 'react';
 import { FaUser } from 'react-icons/fa6';
 import { format } from 'timeago.js';
 
-const Answerss = ({ answer }) => {
+const Answers = ({ answer }) => {
    const { data: session } = useSession()
    const token = session?.user?.accessToken
 
@@ -14,10 +15,18 @@ const Answerss = ({ answer }) => {
                {format(answer?.createdAt)}
             </small>
          </div>
-         <div className='flex items-center w-full gap-2'>
-            <p><FaUser size={50} /></p>
+         <div className='flex items-start w-full gap-2'>
+            <div className="w-10 rounded-full">
+               <Image
+                  width={200}
+                  height={200}
+                  className="rounded-full"
+                  alt="Tailwind CSS Navbar component"
+                  src={answer?.authorId?.profileImage ? answer?.authorId?.profileImage : "https://i.ibb.co/CwMBwJM/default-image.png"}
+               />
+            </div>
             <div>
-               <p>{answer?.authorId?.username}</p>
+               <p>{answer?.authorId?.name}</p>
                <p>{answer?.text}</p>
             </div>
          </div>
@@ -25,4 +34,4 @@ const Answerss = ({ answer }) => {
    );
 };
 
-export default Answerss;
+export default Answers;

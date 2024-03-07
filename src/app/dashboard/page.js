@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import React from 'react';
-
 export async function getUsers() {
    const res = await fetch('http://localhost:3000/api/user', { cache: "no-store" })
    return res.json();

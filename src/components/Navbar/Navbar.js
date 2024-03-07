@@ -4,11 +4,14 @@ import Link from "next/link";
 import { FaHouseChimney } from "react-icons/fa6";
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
+import Loading from "@/app/loading";
+import { usePathname, useRouter } from 'next/navigation';
 
 const Navbar = () => {
    const { data: session, status } = useSession();
    const [userData, setUserData] = useState(null);
    const [loading, setLoading] = useState(true);
+   const router = useRouter();
 
    useEffect(() => {
       const fetchUserData = async () => {
@@ -29,6 +32,11 @@ const Navbar = () => {
       }
    }, [session]);
 
+   const handleSignOut = async () => {
+      await signOut(); // Sign out the user
+      router.push('/'); // Redirect to the login page
+   };
+
    const navItem = (
       <>
          <li><Link href="/"><FaHouseChimney className="text-xl" /></Link></li>
@@ -38,14 +46,16 @@ const Navbar = () => {
       </>
    );
 
-   return loading ? (<>
-      <div className="h-screen flex items-center justify-center">
-         <p className="text-lg">
-            loading...
-         </p>
-      </div>
-   </>) : (
-      <div>
+   const pathname = usePathname();
+
+   if (pathname.includes("/dashboard")) return null;
+   if (pathname.includes("/register")) return null;
+   if (!session?.user) {
+      if (pathname.includes("/")) return null;
+   }
+
+   return (
+      <div className="hide-navbar">
          <div className="max-w-6xl m-auto">
             <div className="navbar bg-base-100 gap-4 px-0">
                <div className="navbar-start w-[25%]">
@@ -68,7 +78,7 @@ const Navbar = () => {
                   <div className="form-control flex-1 hidden md:block">
                      <input type="text" name="search" placeholder="Search" className="w-3/4 border px-4 py-1 rounded-3xl input-bordered" />
                   </div>
-                  {status === "loading" ? (
+                  {loading ? (
                      <p className="skeleton w-10 h-10"></p>
                   ) : session?.user ? (
                      <div className="dropdown dropdown-end">
@@ -96,7 +106,7 @@ const Navbar = () => {
                         </ul>
                      </div>
                   ) : (
-                     <button onClick={() => signIn()} className="btn">
+                     <button onClick={handleSignOut} className="btn">
                         Get Started
                      </button>
                   )}
@@ -104,7 +114,7 @@ const Navbar = () => {
             </div>
          </div>
       </div>
-   );
+   )
 };
 
 export default Navbar;

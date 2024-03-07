@@ -1,4 +1,3 @@
-
 import Advertise from '@/components/Advertise/Advertise';
 import Navbar from '@/components/Navbar/Navbar';
 import QuestionCard from '@/components/PostCard/QuestionCard';
@@ -16,10 +15,6 @@ export async function getQuest() {
     
     return (
         <div>
-          <div className='shadow-md bg-white sticky top-0 z-50'>
-            <Navbar />
-          </div>
-
           <div className="flex flex-col md:flex-row mt-5 gap-5 max-w-6xl m-auto">
             <div className="w-full md:w-[250px]">
               <Sidebar />

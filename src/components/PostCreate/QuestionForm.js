@@ -1,4 +1,5 @@
 "use client"
+import Loading from "@/app/loading";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,11 +9,13 @@ const QuestionForm = () => {
    const [quest, setQuest] = useState('')
    const { data: session, status } = useSession()
    const router = useRouter()
+   // const [loading, setLoading] = useState(true);
+
 
    console.log(session)
-   if (status === 'loading') {
-      return <p>Loading...</p>
-   }
+   // if (loading) {
+   //    return <Loading/>
+   // }
 
    if (status === "unauthenticated") {
       return <p>Access Denied</p>

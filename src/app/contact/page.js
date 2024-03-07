@@ -6,9 +6,6 @@ import Footer from '@/components/Footer/Footer';
 const contactpage = () => {
     return (
         <div>
-            <div className='shadow-md bg-white sticky top-0 z-50'>
-                <Navbar />
-            </div>
             <div>
                 <Contact/>
             </div>

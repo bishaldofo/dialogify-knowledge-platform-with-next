@@ -1,4 +1,5 @@
 "use client"
+import Loading from "@/app/loading";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -39,8 +40,8 @@ const UserProfile = () => {
    }, [session]);
 
    
-   if (status === 'loading') {
-      return <p>Loading....</p>
+   if (loading) {
+      return <Loading/>
    }
 
    if (status === "unauthenticated") {
